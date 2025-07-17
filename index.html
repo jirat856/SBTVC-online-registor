@@ -23,6 +23,44 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.856);
         }
+        .modal {
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .modal-container {
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal.active .modal-container {
+            transform: scale(1);
+        }
+        .status-bar {
+            background: linear-gradient(90deg, #141E30 0%, #243B55 100%);
+        }
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #8E54E9;
+            box-shadow: 0 0 0 3px rgba(142, 84, 233, 0.2);
+        }
+        .hero-image {
+            background: linear-gradient(135deg, rgba(71, 118, 230, 0.8) 0%, rgba(142, 84, 233, 0.8) 100%), url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.2" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
+            background-size: cover;
+            background-position: center;
+        }
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
@@ -39,7 +77,17 @@
                     <h1 class="text-2xl md:text-3xl font-bold">วิทยาลัยอาชีวศึกษาเทคโนโลยีฐานวิทยาศาสตร์(ชลบุรี)</h1>
                     <p class="text-orange-100 mt-1">Science Based Technology Vocational College (Chonburi)</p>
                 </div>
-            </div>
+                <!-- Home-->
+                <div class="h-10 w-10 ml-auto mt-4 md:mt-0">
+                    <a href="index.html" class="home-link">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt="Home" class="home-icon"></a>
+                </div>
+                <!-- Login/Register Buttons -->
+                 <div class="flex space-x-3">
+                        <button id="login-button" class="px-4 py-2 bg-white text-indigo-700 rounded-lg hover:bg-indigo-50 transition font-medium shadow-md">เข้าสู่ระบบ</button>
+                        <button id="register-button" class="gradient-button-secondary px-4 py-2 text-white rounded-lg font-medium shadow-md">สมัครสมาชิก</button>
+                    </div>
+                </nav>
         </header>
     <!-- banner top-->
     <div class="w-full bg-white">
@@ -180,6 +228,95 @@
             </div>
         </footer>
     </div>
+    
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 invisible opacity-0">
+        <div class="modal-container bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">เข้าสู่ระบบ</h2>
+                <button class="close-modal text-gray-500 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">อีเมล</label>
+                    <input type="email" id="email" name="email" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
+                    <input type="password" id="password" name="password" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" name="remember" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700">จดจำฉัน</label>
+                    </div>
+                    <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800">ลืมรหัสผ่าน?</a>
+                </div>
+                <div>
+                    <button type="submit" class="w-full gradient-button-primary py-2 px-4 rounded-lg font-medium text-white shadow-md">เข้าสู่ระบบ</button>
+                </div>
+                <div class="text-center text-sm text-gray-600">
+                    ยังไม่มีบัญชี? <a href="#" id="switch-to-register" class="text-indigo-600 hover:text-indigo-800 font-medium">สมัครสมาชิก</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 invisible opacity-0">
+        <div class="modal-container bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">สมัครสมาชิก</h2>
+                <button class="close-modal text-gray-500 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="registerForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="firstname" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ</label>
+                        <input type="text" id="firstname" name="firstname" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                    </div>
+                    <div>
+                        <label for="lastname" class="block text-sm font-medium text-gray-700 mb-1">นามสกุล</label>
+                        <input type="text" id="lastname" name="lastname" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="reg-email" class="block text-sm font-medium text-gray-700 mb-1">อีเมล</label>
+                    <input type="email" id="reg-email" name="email" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                </div>
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">เบอร์โทรศัพท์</label>
+                    <input type="tel" id="phone" name="phone" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                </div>
+                <div>
+                    <label for="reg-password" class="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
+                    <input type="password" id="reg-password" name="password" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                </div>
+                <div>
+                    <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="confirm-password" name="confirm-password" class="form-input w-full px-4 py-2 border rounded-lg outline-none transition" required>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" name="terms" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" required>
+                    <label for="terms" class="ml-2 block text-sm text-gray-700">ฉันยอมรับ <a href="#" class="text-indigo-600 hover:text-indigo-800">ข้อกำหนดและเงื่อนไข</a></label>
+                </div>
+                <div>
+                    <button type="submit" class="w-full gradient-button-primary py-2 px-4 rounded-lg font-medium text-white shadow-md">สมัครสมาชิก</button>
+                </div>
+                <div class="text-center text-sm text-gray-600">
+                    มีบัญชีอยู่แล้ว? <a href="#" id="switch-to-login" class="text-indigo-600 hover:text-indigo-800 font-medium">เข้าสู่ระบบ</a>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         // Simple page navigation simulation
@@ -192,6 +329,242 @@
                 // window.location.href = `/register/${programId}`;
             });
         });
+    </script>
+
+    <script>
+        // Modal functionality
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const loginButton = document.getElementById('login-button');
+        const registerButton = document.getElementById('register-button');
+        const homeLoginButton = document.getElementById('home-login-button');
+        const homeRegisterButton = document.getElementById('home-register-button');
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const closeButtons = document.querySelectorAll('.close-modal');
+        const totalUsersElement = document.getElementById('total-users');
+        const recentUserElement = document.getElementById('recent-user');
+
+        // Open login modal
+        function openLoginModal() {
+            registerModal.classList.remove('active');
+            loginModal.classList.add('active');
+            loginModal.style.visibility = 'visible';
+            loginModal.style.opacity = '1';
+        }
+
+        // Open register modal
+        function openRegisterModal() {
+            loginModal.classList.remove('active');
+            registerModal.classList.add('active');
+            registerModal.style.visibility = 'visible';
+            registerModal.style.opacity = '1';
+        }
+
+        // Close all modals
+        function closeModals() {
+            loginModal.classList.remove('active');
+            registerModal.classList.remove('active');
+            setTimeout(() => {
+                loginModal.style.visibility = 'hidden';
+                registerModal.style.visibility = 'hidden';
+                loginModal.style.opacity = '0';
+                registerModal.style.opacity = '0';
+            }, 300);
+        }
+
+        // Event listeners for opening modals
+        loginButton.addEventListener('click', openLoginModal);
+        registerButton.addEventListener('click', openRegisterModal);
+        homeLoginButton.addEventListener('click', openLoginModal);
+        homeRegisterButton.addEventListener('click', openRegisterModal);
+        switchToRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            openRegisterModal();
+        });
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            openLoginModal();
+        });
+
+        // Event listeners for closing modals
+        closeButtons.forEach(button => {
+            button.addEventListener('click', closeModals);
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal || e.target === registerModal) {
+                closeModals();
+            }
+        });
+
+        // Function to submit data to Google Sheets via JSONP
+        function submitToGoogleSheets(formData, action) {
+            // Show loading state
+            Swal.fire({
+                title: 'กำลังดำเนินการ...',
+                text: 'โปรดรอสักครู่',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Create URL with parameters
+            const url = 'https://script.google.com/macros/s/AKfycbwVJAqYYRLvPFsiZJ96DMCnYJ0v-_o2QyKY3-xKSLkANqbuJFukuSUTNQElXHSed6rFSQ/exec';
+            const params = new URLSearchParams();
+            
+            // Add form data to params
+            for (const key in formData) {
+                params.append(key, formData[key]);
+            }
+            
+            // Add action parameter
+            params.append('action', action);
+            
+            // Create script element for JSONP
+            const script = document.createElement('script');
+            const callbackName = 'jsonpCallback_' + Math.round(Math.random() * 1000000);
+            
+            // Define callback function
+            window[callbackName] = function(response) {
+                // Remove script element
+                document.body.removeChild(script);
+                
+                // Handle response
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'สำเร็จ!',
+                        text: response.message || 'ดำเนินการเรียบร้อยแล้ว',
+                        confirmButtonColor: '#4776E6'
+                    });
+                    
+                    // Close modals
+                    closeModals();
+                    
+                    // Update user stats
+                    fetchUserStats();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: response.message || 'เกิดข้อผิดพลาดในการดำเนินการ',
+                        confirmButtonColor: '#4776E6'
+                    });
+                }
+                
+                // Clean up callback
+                delete window[callbackName];
+            };
+            
+            // Set up script for JSONP
+            script.src = `${url}?${params.toString()}&callback=${callbackName}`;
+            document.body.appendChild(script);
+            
+            // Handle timeout
+            setTimeout(() => {
+                if (window[callbackName]) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'การเชื่อมต่อล้มเหลว โปรดลองอีกครั้งในภายหลัง',
+                        confirmButtonColor: '#4776E6'
+                    });
+                    
+                    document.body.removeChild(script);
+                    delete window[callbackName];
+                }
+            }, 10000); // 10 seconds timeout
+        }
+
+        // Function to fetch user statistics
+        function fetchUserStats() {
+            const url = 'https://script.google.com/macros/s/AKfycbwVJAqYYRLvPFsiZJ96DMCnYJ0v-_o2QyKY3-xKSLkANqbuJFukuSUTNQElXHSed6rFSQ/exec';
+            const callbackName = 'statsCallback_' + Math.round(Math.random() * 1000000);
+            
+            // Define callback function
+            window[callbackName] = function(response) {
+                // Remove script element
+                document.body.removeChild(script);
+                
+                // Update stats on page
+                if (response.success) {
+                    totalUsersElement.textContent = response.totalUsers || '0';
+                    recentUserElement.textContent = response.recentUser || 'ไม่มีข้อมูล';
+                } else {
+                    totalUsersElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
+                    recentUserElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
+                }
+                
+                // Clean up callback
+                delete window[callbackName];
+            };
+            
+            // Set up script for JSONP
+            const script = document.createElement('script');
+            script.src = `${url}?action=getStats&callback=${callbackName}`;
+            document.body.appendChild(script);
+            
+            // Handle timeout
+            setTimeout(() => {
+                if (window[callbackName]) {
+                    totalUsersElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
+                    recentUserElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
+                    
+                    if (document.body.contains(script)) {
+                        document.body.removeChild(script);
+                    }
+                    delete window[callbackName];
+                }
+            }, 10000); // 10 seconds timeout
+        }
+
+        // Form submission handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                remember: document.getElementById('remember').checked
+            };
+            
+            submitToGoogleSheets(formData, 'login');
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check if passwords match
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'รหัสผ่านไม่ตรงกัน',
+                    text: 'กรุณาตรวจสอบรหัสผ่านของคุณอีกครั้ง',
+                    confirmButtonColor: '#4776E6'
+                });
+                return;
+            }
+            
+            const formData = {
+                firstname: document.getElementById('firstname').value,
+                lastname: document.getElementById('lastname').value,
+                email: document.getElementById('reg-email').value,
+                phone: document.getElementById('phone').value,
+                password: password,
+                terms: document.getElementById('terms').checked
+            };
+            
+            submitToGoogleSheets(formData, 'register');
+        });
+
+        // Fetch user stats on page load
+        document.addEventListener('DOMContentLoaded', fetchUserStats);
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'950b6712c1a7d332',t:'MTc1MDA4ODM5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
