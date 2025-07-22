@@ -9,7 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgKRjxoTvT4mcjFO5CGdPiCJA4AsPxvbvIMw&s" rel="icon">
-  <link href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgKRjxoTvT4mcjFO5CGdPiCJA4AsPxvbvIMw&s" rel="apple-touch-icon">
+    <link href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgKRjxoTvT4mcjFO5CGdPiCJA4AsPxvbvIMw&s" rel="apple-touch-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
@@ -61,6 +62,34 @@
         .testimonial-card:hover {
             transform: translateY(-3px);
         }
+        .feature-icon-1 {
+            background: linear-gradient(135deg, #43CBFF 0%, #9708CC 100%);
+        }
+        .feature-icon-2 {
+            background: linear-gradient(135deg, #FFCC33 0%, #FF6666 100%);
+        }
+        .feature-icon-3 {
+            background: linear-gradient(135deg, #00F260 0%, #0575E6 100%);
+        }
+        .profile-box {
+            background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+            border-top: 5px solid #4776E6;
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        .profile-box.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+        .profile-header {
+            background: linear-gradient(90deg, #4776E6 0%, #8E54E9 100%);
+        }
+        .profile-avatar {
+            background: linear-gradient(135deg, #43CBFF 0%, #9708CC 100%);
+        }
     </style>
 </head>
 <body>
@@ -88,6 +117,41 @@
                         <button id="register-button" class="gradient-button-secondary px-4 py-2 text-white rounded-lg font-medium shadow-md">สมัครสมาชิก</button>
                     </div>
                 </nav>
+                <!-- Profile Box (Hidden by default) -->
+                    <div id="profile-box" class="profile-box absolute right-4 top-20 w-72 rounded-xl shadow-2xl z-50">
+                        <div class="profile-header rounded-t-xl p-4 text-white">
+                            <div class="flex items-center space-x-3">
+                                <div class="profile-avatar w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                    <span id="profile-initials">ส</span>
+                                </div>
+                                <div>
+                                    <h3 id="profile-name" class="font-semibold text-lg">ชื่อ นามสกุล</h3>
+                                    <p id="profile-email" class="text-sm text-purple-100">email@example.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="mb-4">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    <span id="profile-phone" class="text-gray-700">0812345678</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                    <span class="text-gray-700">นักศึกษา</span>
+                                </div>
+                            </div>
+                            <div class="border-t border-gray-200 pt-3">
+                                <button id="logout-button" class="logout-button w-full py-2 rounded-lg text-white font-medium">ออกจากระบบ</button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
         </header>
     <!-- banner top-->
     <div class="w-full bg-white">
@@ -260,7 +324,7 @@
                     <button type="submit" class="w-full gradient-button-primary py-2 px-4 rounded-lg font-medium text-white shadow-md">เข้าสู่ระบบ</button>
                 </div>
                 <div class="text-center text-sm text-gray-600">
-                    ยังไม่มีบัญชี? <a href="#" id="switch-to-register" class="text-indigo-600 hover:text-indigo-800 font-medium">สมัครสมาชิก</a>
+                    ยังไม่มีบัญชี? <a href="register-modal" id="switch-to-register" class="text-gray-600 hover:text-gray-800 font-medium" class="register-link">สมัครสมาชิก</a>
                 </div>
             </form>
         </div>
@@ -312,259 +376,13 @@
                     <button type="submit" class="w-full gradient-button-primary py-2 px-4 rounded-lg font-medium text-white shadow-md">สมัครสมาชิก</button>
                 </div>
                 <div class="text-center text-sm text-gray-600">
-                    มีบัญชีอยู่แล้ว? <a href="#" id="switch-to-login" class="text-indigo-600 hover:text-indigo-800 font-medium">เข้าสู่ระบบ</a>
+                    มีบัญชีอยู่แล้ว? <a href="login-modal" id="switch-to-login" class="text-black-600 hover:text-black-800 font-medium">เข้าสู่ระบบ</a>
                 </div>
             </form>
         </div>
     </div>
+    
 
-    <script>
-        // Simple page navigation simulation
-        document.querySelectorAll('a[href^="#program"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const programId = this.getAttribute('href').substring(1);
-                alert(`กำลังนำท่านไปยังหน้าสมัครเรียนสาขา ${this.querySelector('h3').textContent}`);
-                // In a real application, this would navigate to the program's registration page
-                // window.location.href = `/register/${programId}`;
-            });
-        });
-    </script>
-
-    <script>
-        // Modal functionality
-        const loginModal = document.getElementById('login-modal');
-        const registerModal = document.getElementById('register-modal');
-        const loginButton = document.getElementById('login-button');
-        const registerButton = document.getElementById('register-button');
-        const homeLoginButton = document.getElementById('home-login-button');
-        const homeRegisterButton = document.getElementById('home-register-button');
-        const switchToRegister = document.getElementById('switch-to-register');
-        const switchToLogin = document.getElementById('switch-to-login');
-        const closeButtons = document.querySelectorAll('.close-modal');
-        const totalUsersElement = document.getElementById('total-users');
-        const recentUserElement = document.getElementById('recent-user');
-
-        // Open login modal
-        function openLoginModal() {
-            registerModal.classList.remove('active');
-            loginModal.classList.add('active');
-            loginModal.style.visibility = 'visible';
-            loginModal.style.opacity = '1';
-        }
-
-        // Open register modal
-        function openRegisterModal() {
-            loginModal.classList.remove('active');
-            registerModal.classList.add('active');
-            registerModal.style.visibility = 'visible';
-            registerModal.style.opacity = '1';
-        }
-
-        // Close all modals
-        function closeModals() {
-            loginModal.classList.remove('active');
-            registerModal.classList.remove('active');
-            setTimeout(() => {
-                loginModal.style.visibility = 'hidden';
-                registerModal.style.visibility = 'hidden';
-                loginModal.style.opacity = '0';
-                registerModal.style.opacity = '0';
-            }, 300);
-        }
-
-        // Event listeners for opening modals
-        loginButton.addEventListener('click', openLoginModal);
-        registerButton.addEventListener('click', openRegisterModal);
-        homeLoginButton.addEventListener('click', openLoginModal);
-        homeRegisterButton.addEventListener('click', openRegisterModal);
-        switchToRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            openRegisterModal();
-        });
-        switchToLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            openLoginModal();
-        });
-
-        // Event listeners for closing modals
-        closeButtons.forEach(button => {
-            button.addEventListener('click', closeModals);
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === loginModal || e.target === registerModal) {
-                closeModals();
-            }
-        });
-
-        // Function to submit data to Google Sheets via JSONP
-        function submitToGoogleSheets(formData, action) {
-            // Show loading state
-            Swal.fire({
-                title: 'กำลังดำเนินการ...',
-                text: 'โปรดรอสักครู่',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            // Create URL with parameters
-            const url = 'https://script.google.com/macros/s/AKfycbwVJAqYYRLvPFsiZJ96DMCnYJ0v-_o2QyKY3-xKSLkANqbuJFukuSUTNQElXHSed6rFSQ/exec';
-            const params = new URLSearchParams();
-            
-            // Add form data to params
-            for (const key in formData) {
-                params.append(key, formData[key]);
-            }
-            
-            // Add action parameter
-            params.append('action', action);
-            
-            // Create script element for JSONP
-            const script = document.createElement('script');
-            const callbackName = 'jsonpCallback_' + Math.round(Math.random() * 1000000);
-            
-            // Define callback function
-            window[callbackName] = function(response) {
-                // Remove script element
-                document.body.removeChild(script);
-                
-                // Handle response
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'สำเร็จ!',
-                        text: response.message || 'ดำเนินการเรียบร้อยแล้ว',
-                        confirmButtonColor: '#4776E6'
-                    });
-                    
-                    // Close modals
-                    closeModals();
-                    
-                    // Update user stats
-                    fetchUserStats();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อผิดพลาด',
-                        text: response.message || 'เกิดข้อผิดพลาดในการดำเนินการ',
-                        confirmButtonColor: '#4776E6'
-                    });
-                }
-                
-                // Clean up callback
-                delete window[callbackName];
-            };
-            
-            // Set up script for JSONP
-            script.src = `${url}?${params.toString()}&callback=${callbackName}`;
-            document.body.appendChild(script);
-            
-            // Handle timeout
-            setTimeout(() => {
-                if (window[callbackName]) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อผิดพลาด',
-                        text: 'การเชื่อมต่อล้มเหลว โปรดลองอีกครั้งในภายหลัง',
-                        confirmButtonColor: '#4776E6'
-                    });
-                    
-                    document.body.removeChild(script);
-                    delete window[callbackName];
-                }
-            }, 10000); // 10 seconds timeout
-        }
-
-        // Function to fetch user statistics
-        function fetchUserStats() {
-            const url = 'https://script.google.com/macros/s/AKfycbwVJAqYYRLvPFsiZJ96DMCnYJ0v-_o2QyKY3-xKSLkANqbuJFukuSUTNQElXHSed6rFSQ/exec';
-            const callbackName = 'statsCallback_' + Math.round(Math.random() * 1000000);
-            
-            // Define callback function
-            window[callbackName] = function(response) {
-                // Remove script element
-                document.body.removeChild(script);
-                
-                // Update stats on page
-                if (response.success) {
-                    totalUsersElement.textContent = response.totalUsers || '0';
-                    recentUserElement.textContent = response.recentUser || 'ไม่มีข้อมูล';
-                } else {
-                    totalUsersElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
-                    recentUserElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
-                }
-                
-                // Clean up callback
-                delete window[callbackName];
-            };
-            
-            // Set up script for JSONP
-            const script = document.createElement('script');
-            script.src = `${url}?action=getStats&callback=${callbackName}`;
-            document.body.appendChild(script);
-            
-            // Handle timeout
-            setTimeout(() => {
-                if (window[callbackName]) {
-                    totalUsersElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
-                    recentUserElement.textContent = 'ไม่สามารถโหลดข้อมูลได้';
-                    
-                    if (document.body.contains(script)) {
-                        document.body.removeChild(script);
-                    }
-                    delete window[callbackName];
-                }
-            }, 10000); // 10 seconds timeout
-        }
-
-        // Form submission handling
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                remember: document.getElementById('remember').checked
-            };
-            
-            submitToGoogleSheets(formData, 'login');
-        });
-
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Check if passwords match
-            const password = document.getElementById('reg-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            
-            if (password !== confirmPassword) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'รหัสผ่านไม่ตรงกัน',
-                    text: 'กรุณาตรวจสอบรหัสผ่านของคุณอีกครั้ง',
-                    confirmButtonColor: '#4776E6'
-                });
-                return;
-            }
-            
-            const formData = {
-                firstname: document.getElementById('firstname').value,
-                lastname: document.getElementById('lastname').value,
-                email: document.getElementById('reg-email').value,
-                phone: document.getElementById('phone').value,
-                password: password,
-                terms: document.getElementById('terms').checked
-            };
-            
-            submitToGoogleSheets(formData, 'register');
-        });
-
-        // Fetch user stats on page load
-        document.addEventListener('DOMContentLoaded', fetchUserStats);
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'950b6712c1a7d332',t:'MTc1MDA4ODM5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    <script src="script.js"></script>
+    </body>
 </html>
